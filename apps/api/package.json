@@ -6,12 +6,12 @@
   "main": "dist/server.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "prisma generate && tsc",
+    "build": "node scripts/prisma-env.mjs generate && tsc",
     "start": "node dist/server.js",
     "typecheck": "tsc --noEmit",
-    "db:generate": "prisma generate",
-    "db:migrate": "prisma migrate dev",
-    "db:deploy": "prisma migrate deploy"
+    "db:generate": "node scripts/prisma-env.mjs generate",
+    "db:migrate": "node scripts/prisma-env.mjs migrate dev",
+    "db:deploy": "node scripts/prisma-env.mjs migrate deploy"
   },
   "engines": {
     "node": "20.x"
