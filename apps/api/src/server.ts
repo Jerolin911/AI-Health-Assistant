@@ -38,6 +38,6 @@ app.use("/api/triage", triageRouter);
 app.use("/api/hospitals", hospitalsRouter);
 app.use(errorHandler);
 
-app.listen(config.API_PORT, () => {
-  console.log(`API listening on http://localhost:${config.API_PORT}`);
+app.listen(config.API_PORT, "0.0.0.0", () => {
+  console.log(`API listening on 0.0.0.0:${config.API_PORT}`);
 });

@@ -11,16 +11,29 @@ Environment variables:
 
 ## Express API: Render or Railway
 
+Render settings when deploying `apps/api` directly:
+
+- Root Directory: `apps/api`
+- Build Command: `npm install --include=dev && npm run db:deploy && npm run build`
+- Start Command: `npm start`
+- Health Check Path: `/health`
+
+If you prefer Render's separate pre-deploy step, use:
+
+- Build Command: `npm install --include=dev && npm run build`
+- Pre-Deploy Command: `npm run db:deploy`
+- Start Command: `npm start`
+
 Build command:
 
 ```bash
-npm install && npm run build --workspace apps/api
+npm install --include=dev && npm run db:deploy && npm run build
 ```
 
 Start command:
 
 ```bash
-npm run start --workspace apps/api
+npm start
 ```
 
 Environment variables:
@@ -30,6 +43,15 @@ Environment variables:
 - `TRIAGE_SERVICE_URL`
 - `GOOGLE_PLACES_API_KEY`
 - `CORS_ORIGIN`
+
+Render provides `PORT` automatically. The API reads `PORT` in production and falls back to `API_PORT` or `4000` locally.
+
+Local env layout:
+
+- Root `.env` is the local backend source of truth.
+- `apps/web/.env.local` is only for Next.js browser-facing values.
+- Do not keep a separate `apps/api/.env` locally unless you intentionally want to override backend values.
+- Render does not read local `.env` files; add backend variables in the Render Environment tab.
 
 ## Flask Triage Service
 
