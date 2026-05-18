@@ -10,7 +10,7 @@ import {
 export async function analyzeSymptoms(input: TriageRequest): Promise<TriageResponse> {
   try {
     const response = await axios.post(`${config.TRIAGE_SERVICE_URL}/analyze`, input, {
-      timeout: 10_000
+      timeout: 60_000
     });
     return triageResponseSchema.parse(response.data);
   } catch (error) {
