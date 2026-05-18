@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String       @id @default(cuid())
+  name         String
+  email        String       @unique
+  passwordHash String
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  assessments  Assessment[]
+}
+
+model Assessment {
+  id                    String   @id @default(cuid())
+  userId                String?
+  symptoms              String
+  issueDetails          String
+  duration              String
+  severity              Int
+  age                   Int
+  medicalHistory        String?
+  possibleIssues        Json
+  urgency               Urgency
+  redFlags              Json
+  suggestions           Json
+  followUpQuestions     Json
+  recommendedSpecialist String
+  needsMedicalAttention Boolean
+  disclaimer            String
+  createdAt             DateTime @default(now())
+  user                  User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+}
+
+model HospitalSearch {
+  id         String   @id @default(cuid())
+  userId     String?
+  specialty  String
+  query      String
+  latitude   Float?
+  longitude  Float?
+  createdAt  DateTime @default(now())
+
+  @@index([userId, createdAt])
+}
+
+enum Urgency {
+  Mild
+  Moderate
+  Urgent
+  Emergency
+}
